@@ -1,5 +1,5 @@
 class feature_selector:
-    def __init__(self, threshold=0.01):
+    def __init__(self, threshold=0.1):
         self.threshold = threshold
         self.features_to_keep = None
 

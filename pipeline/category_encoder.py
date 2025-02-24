@@ -11,6 +11,7 @@ class category_encoder(BaseEstimator, TransformerMixin):
         self.global_mean = None
         self.known_makes = None
         self.known_models = None
+        self.marca_modelli_dict = None  # Nuovo dizionario
         self.cat_cols = None
 
     def fit(self, X, y):
@@ -21,6 +22,9 @@ class category_encoder(BaseEstimator, TransformerMixin):
                          col != 'trasmissione']
 
         self.target_encoder.fit(X[self.cat_cols], y)
+
+        # Creazione del dizionario marca -> lista modelli
+        self.marca_modelli_dict = X.groupby('marca')['modello'].unique().apply(list).to_dict()
 
         self.marca_means = X.join(y.rename('target')).groupby('marca')['target'].mean()
         self.global_mean = y.mean()

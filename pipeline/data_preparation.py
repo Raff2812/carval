@@ -20,8 +20,8 @@ class data_preparation:
         X_train_imputed = self.engineer.transform(X_train_imputed)
         y_train = y_train.loc[X_train_imputed.index]
         X_train_encoded = self.encoder.fit_transform(X_train_imputed, y_train)
+        self.feature_selector.fit(X_train_encoded)
         X_train_normalized = self.normalizer.fit_transform(X_train_encoded)
-        self.feature_selector.fit(X_train_normalized)
         return X_train_normalized
 
     def transform_train(self, X_train):
