@@ -3,6 +3,7 @@ from category_encoder import category_encoder
 from data_normalization import data_nomalization
 from feature_selector import feature_selector
 from feature_engineering import feature_engineering
+from outlier_remover import outlier_remover
 
 # Classe principale che coordina tutte le trasformazioni
 class data_preparation:
@@ -10,6 +11,7 @@ class data_preparation:
         self.imputer = data_imputer()
         self.encoder = category_encoder()
         self.normalizer = data_nomalization()
+        self.outlier_remover = outlier_remover()
         self.feature_selector = feature_selector()
         self.engineer = feature_engineering()
 
@@ -21,7 +23,9 @@ class data_preparation:
         y_train = y_train.loc[X_train_imputed.index]
         X_train_encoded = self.encoder.fit_transform(X_train_imputed, y_train)
         self.feature_selector.fit(X_train_encoded)
-        X_train_normalized = self.normalizer.fit_transform(X_train_encoded)
+        #gestione outliers per train set
+        X_train_no_outliers = self.outlier_remover.transform(X_train_encoded)
+        X_train_normalized = self.normalizer.fit_transform(X_train_no_outliers)
         return X_train_normalized
 
     def transform_train(self, X_train):
