@@ -9,7 +9,7 @@ from model_trainer import model_trainer
 
 class pipeline:
     def __init__(self, n_splits=10, use_kfold=True):
-        self.output_dir = '../diagrams'
+        self.output_dir = '../diagrams/regression'
         self.data_preparator = data_preparation()
         self.pre_processor = pre_process()
         self.n_splits = n_splits
@@ -70,7 +70,8 @@ class pipeline:
             self.trainer.train(X_train, X_test, y_train, y_test, fold=None)
 
         print('Training completato. Salvataggio risultati...')
-        self.trainer.save_results()
+        if self.use_kfold:
+            self.trainer.save_results()
 
         final_results = pd.DataFrame(self.trainer.results)
         print('\nRisultati finali su tutti i fold:')
@@ -81,6 +82,6 @@ class pipeline:
 
 
 if __name__ == "__main__":
-    pipe = pipeline(n_splits=10, use_kfold=True)
+    pipe = pipeline(n_splits=10, use_kfold=False)
     path = "../datasets/car_prices.csv"
     pipe.run_pipeline(path)

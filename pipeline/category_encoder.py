@@ -23,7 +23,6 @@ class category_encoder(BaseEstimator, TransformerMixin):
 
         self.target_encoder.fit(X[self.cat_cols], y)
 
-        # Creazione del dizionario marca -> lista modelli
         self.marca_modelli_dict = X.groupby('marca')['modello'].unique().apply(list).to_dict()
 
         self.marca_means = X.join(y.rename('target')).groupby('marca')['target'].mean()

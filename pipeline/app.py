@@ -22,16 +22,19 @@ st.title("Stima del prezzo di un'auto")
 # Selezione marca
 marca = st.selectbox("Inserisci la marca", list(known_makes))
 
-# Ottieni i modelli associati alla marca selezionata
-modelli_disponibili = marca_modelli_dict.get(marca, [])  # Lista vuota se la marca non è nel dizionario
 
-# Usa st.session_state per evitare reset del modello selezionato quando cambia la marca
-if "modello" not in st.session_state or st.session_state.marca != marca:
-    st.session_state.modello = modelli_disponibili[0] if modelli_disponibili else ""
-    st.session_state.marca = marca  # Aggiorna la marca selezionata
+modello = st.text_input("Inserisci il modello")
 
-# Selezione modello basata sulla marca scelta
-modello = st.selectbox("Inserisci il modello:", modelli_disponibili, index=0 if modelli_disponibili else None, key="modello")
+# # Ottieni i modelli associati alla marca selezionata
+# modelli_disponibili = marca_modelli_dict.get(marca, [])
+#
+# # Usa st.session_state per evitare reset del modello selezionato quando cambia la marca
+# if "modello" not in st.session_state or st.session_state.marca != marca:
+#     st.session_state.modello = modelli_disponibili[0] if modelli_disponibili else ""
+#     st.session_state.marca = marca  # Aggiorna la marca selezionata
+#
+# # Selezione modello basata sulla marca scelta
+# modello = st.selectbox("Inserisci il modello:", modelli_disponibili, index=0 if modelli_disponibili else None, key="modello")
 
 # Altri campi di input
 anno_produzione = st.number_input("Inserisci l'anno di produzione:", min_value=1900, max_value=2015, value=2010, step=1)
@@ -51,7 +54,7 @@ for i in range(5):
         if st.button(star_label, key=f"star_{i}"):
             st.session_state.condizione = i + 1  # Aggiorna la condizione
 
-chilometraggio = st.number_input("Inserisci il chilometraggio:", min_value=0, value=0, step=500)
+chilometraggio = st.number_input("Inserisci il chilometraggio:", min_value=0, value=0, step=100)
 colore = st.text_input("Inserisci il colore esterno:")
 interni = st.text_input("Inserisci il colore degli interni:")
 
